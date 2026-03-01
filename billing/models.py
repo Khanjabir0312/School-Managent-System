@@ -70,11 +70,14 @@ class Discount(models.Model):
             return f"{self.discount_name} - {self.discount_value} SAR"
     
     def calculate_discount(self, amount):
-        """Calculate discount amount based on type"""
+        """Calculate discount amount based on type using Decimal arithmetic"""
+        from decimal import Decimal
         if self.discount_type == 'percentage':
-            return amount * (self.discount_value / 100)
+            # ensure we perform decimal math to avoid float conversion
+            pct = Decimal(self.discount_value) / Decimal('100')
+            return amount * pct
         else:
-            return self.discount_value
+            return Decimal(self.discount_value)
     
     def is_valid(self):
         """Check if discount is currently valid"""
@@ -164,9 +167,12 @@ class Invoice(models.Model):
         items = self.items.all()
         self.subtotal = sum(item.total_amount for item in items)
         
-        # Apply discount
+        # Apply discount only if valid; otherwise reset to zero
         if self.discount and self.discount.is_valid():
             self.discount_amount = self.discount.calculate_discount(self.subtotal)
+        else:
+            # ensure old discount amounts aren't carried over
+            self.discount_amount = Decimal('0.00')
         
         # Calculate amount after discount
         amount_after_discount = self.subtotal - self.discount_amount
