@@ -111,7 +111,7 @@ WSGI_APPLICATION = 'Database1.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-<<<<<<< HEAD
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -120,30 +120,33 @@ DATABASES = {
         'PASSWORD': 'admin123',
         'HOST': 'localhost',
         'PORT': '5432',
-=======
+    }
+}
+
+# Database
+# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+
 import sys
 
 # Use sqlite in-memory database when running tests to avoid needing PostgreSQL permissions
 if 'test' in sys.argv or 'pytest' in sys.argv:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': ':memory:',
+        'ENGINE': 'django.db.backends.sqlite3',  # sqlite for testing
+        'NAME': ':memory:',
         }
     }
 else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'mydb2',
-            'USER': 'myuser',
-            'PASSWORD': 'mypassword',
+            'NAME': 'school_db',   # tumhara main db name
+            'USER': 'postgres',    # db user
+            'PASSWORD': 'admin123',  # db password
             'HOST': 'localhost',
             'PORT': '5432',
         }
->>>>>>> c0c2fb3f3430aff6f959ca246198cb243138710c
     }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
