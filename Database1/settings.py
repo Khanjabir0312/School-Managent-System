@@ -105,15 +105,13 @@ WSGI_APPLICATION = 'Database1.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mydb2',
-        'USER': 'myuser',
-        'PASSWORD': 'mypassword',
+        'NAME': 'school_db',
+        'USER': 'postgres',
+        'PASSWORD': 'admin123',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
-
-
 
 
 # Password validation
