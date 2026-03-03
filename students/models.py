@@ -62,7 +62,34 @@ class Student(models.Model):
     
     # Notes
     notes = models.TextField(blank=True, verbose_name="Internal Notes")
-    
+
+    # ── Saudi Arabia Required Documents (all optional) ──────────────────────
+    # Student photo
+    photo = models.ImageField(upload_to='students/photos/', blank=True, null=True, verbose_name="Student Photo")
+
+    # Iqama / National ID details
+    iqama_expiry_date = models.DateField(blank=True, null=True, verbose_name="Iqama / National ID Expiry Date")
+
+    # Passport
+    passport_number = models.CharField(max_length=30, blank=True, verbose_name="Passport Number")
+    passport_expiry_date = models.DateField(blank=True, null=True, verbose_name="Passport Expiry Date")
+
+    # Birth Certificate
+    birth_certificate_number = models.CharField(max_length=50, blank=True, verbose_name="Birth Certificate Number")
+
+    # Transfer Certificate (from previous school)
+    transfer_certificate_number = models.CharField(max_length=50, blank=True, verbose_name="Transfer Certificate Number")
+    previous_school_name = models.CharField(max_length=200, blank=True, verbose_name="Previous School Name")
+
+    # Vaccination
+    vaccination_card_number = models.CharField(max_length=50, blank=True, verbose_name="Vaccination Card Number")
+    is_vaccinated = models.BooleanField(default=False, verbose_name="Vaccination Record Provided")
+
+    # Medical / Health Insurance
+    medical_insurance_number = models.CharField(max_length=50, blank=True, verbose_name="Medical Insurance Number")
+    medical_insurance_expiry = models.DateField(blank=True, null=True, verbose_name="Medical Insurance Expiry Date")
+    # ────────────────────────────────────────────────────────────────────────
+
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

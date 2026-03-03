@@ -118,8 +118,14 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center">
-                                <div class="flex-shrink-0 h-10 w-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center">
-                                    <span class="text-white font-bold text-sm">{{ student.first_name|slice:":1" }}{{ student.last_name|slice:":1" }}</span>
+                                <div class="flex-shrink-0 h-10 w-10 rounded-full overflow-hidden border border-gray-200">
+                                    {% if student.photo %}
+                                    <img src="{{ student.photo.url }}" alt="{{ student.first_name }}" class="h-10 w-10 object-cover">
+                                    {% else %}
+                                    <div class="h-10 w-10 bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
+                                        <span class="text-white font-bold text-sm">{{ student.first_name|slice:":1" }}{{ student.last_name|slice:":1" }}</span>
+                                    </div>
+                                    {% endif %}
                                 </div>
                                 <div class="ml-4">
                                     <a href="{% url 'students:student_detail' student.pk %}" 

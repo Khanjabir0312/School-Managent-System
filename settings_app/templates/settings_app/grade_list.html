@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block page_title %}Grades - Settings{% endblock %}
+
+{% block content %}
+<div class="mb-6 flex items-center justify-between">
+    <h1 class="text-3xl font-bold">Grades</h1>
+    <a href="{% url 'settings_app:grade_create' %}" class="bg-green-600 text-white px-4 py-2 rounded">Add Grade</a>
+</div>
+
+<div class="mb-4">
+    <form method="get" class="flex items-center gap-2">
+        <select name="program" class="border px-2 py-1">
+            <option value="">-- All Programs --</option>
+            {% for prog in programs %}
+                <option value="{{ prog.id }}" {% if selected_program == prog.id|stringformat:'s' %}selected{% endif %}>{{ prog.name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded">Filter</button>
+    </form>
+</div>
+
+<div class="bg-white rounded shadow p-4">
+    {% if grades.exists %}
+    <table class="w-full table-auto">
+        <thead>
+            <tr>
+                <th class="px-4 py-2 text-left">Name</th>
+                <th class="px-4 py-2 text-left">Program</th>
+                <th class="px-4 py-2"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grade in grades %}
+            <tr class="border-t">
+                <td class="px-4 py-2">{{ grade.name }}</td>
+                <td class="px-4 py-2">{{ grade.program.name }}</td>
+                <td class="px-4 py-2 text-right">
+                    <a href="{% url 'settings_app:grade_edit' grade.pk %}" class="text-green-600">Edit</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No grades defined.</p>
+    {% endif %}
+</div>
+{% endblock %}

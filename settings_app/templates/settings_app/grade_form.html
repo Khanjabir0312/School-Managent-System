@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block page_title %}{{ action }} Grade{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto">
+    <h2 class="text-2xl font-bold mb-4">{{ action }} Grade</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">{{ action }}</button>
+    </form>
+</div>
+{% endblock %}

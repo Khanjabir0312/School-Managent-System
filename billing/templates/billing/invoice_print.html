@@ -535,21 +535,21 @@
                         المبلغ الصافي قبل الضريبة المضافة<br>
                         <small style="font-weight: normal;">Net Amount Before VAT</small>
                     </td>
-                    <td class="summary-value">{{ invoice.subtotal|floatformat:2 }}</td>
+                    <td class="summary-value">{{ invoice.subtotal|floatformat:2 }} SAR</td>
                 </tr>
                 <tr>
                     <td class="summary-label">
                         قيمة الضريبة المضافة<br>
-                        <small style="font-weight: normal;">VAT Amount</small>
+                        <small style="font-weight: normal;">VAT Amount (Saudi Riyal)</small>
                     </td>
-                    <td class="summary-value">{{ invoice.vat_amount|floatformat:2 }}</td>
+                    <td class="summary-value">{{ invoice.vat_amount|floatformat:2 }} SAR</td>
                 </tr>
                 <tr class="total-row">
                     <td class="summary-label">
                         الإجمالي شامل ضريبة القيمة المضافة<br>
                         <small style="font-weight: normal;">Total Amount with VAT</small>
                     </td>
-                    <td class="summary-value">{{ invoice.total_amount|floatformat:2 }}</td>
+                    <td class="summary-value">{{ invoice.total_amount|floatformat:2 }} SAR</td>
                 </tr>
             </table>
         </div>

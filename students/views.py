@@ -97,7 +97,21 @@ def student_create(request):
                 district=request.POST.get('district', ''),
                 is_active=request.POST.get('is_active') == 'on',
                 notes=request.POST.get('notes', ''),
+                # Saudi Documents
+                iqama_expiry_date=request.POST.get('iqama_expiry_date') or None,
+                passport_number=request.POST.get('passport_number', ''),
+                passport_expiry_date=request.POST.get('passport_expiry_date') or None,
+                birth_certificate_number=request.POST.get('birth_certificate_number', ''),
+                transfer_certificate_number=request.POST.get('transfer_certificate_number', ''),
+                previous_school_name=request.POST.get('previous_school_name', ''),
+                vaccination_card_number=request.POST.get('vaccination_card_number', ''),
+                is_vaccinated=request.POST.get('is_vaccinated') == 'on',
+                medical_insurance_number=request.POST.get('medical_insurance_number', ''),
+                medical_insurance_expiry=request.POST.get('medical_insurance_expiry') or None,
             )
+            if request.FILES.get('photo'):
+                student.photo = request.FILES['photo']
+                student.save()
             messages.success(request, f'Student {student.get_full_name()} created successfully!')
             return redirect('students:student_detail', pk=student.pk)
         except Exception as e:
@@ -160,6 +174,19 @@ def student_update(request, pk):
             student.district = request.POST.get('district', '')
             student.is_active = request.POST.get('is_active') == 'on'
             student.notes = request.POST.get('notes', '')
+            # Saudi Documents
+            student.iqama_expiry_date = request.POST.get('iqama_expiry_date') or None
+            student.passport_number = request.POST.get('passport_number', '')
+            student.passport_expiry_date = request.POST.get('passport_expiry_date') or None
+            student.birth_certificate_number = request.POST.get('birth_certificate_number', '')
+            student.transfer_certificate_number = request.POST.get('transfer_certificate_number', '')
+            student.previous_school_name = request.POST.get('previous_school_name', '')
+            student.vaccination_card_number = request.POST.get('vaccination_card_number', '')
+            student.is_vaccinated = request.POST.get('is_vaccinated') == 'on'
+            student.medical_insurance_number = request.POST.get('medical_insurance_number', '')
+            student.medical_insurance_expiry = request.POST.get('medical_insurance_expiry') or None
+            if request.FILES.get('photo'):
+                student.photo = request.FILES['photo']
             student.save()
             
             messages.success(request, f'Student {student.get_full_name()} updated successfully!')

@@ -35,7 +35,7 @@ ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
 # Provide either the school name or code; matching is case-insensitive and
 # partial. Useful when deploying for one institution such as "Alkawthar".
 # If empty or not set, normal multi-school behavior applies.
-FORCE_SCHOOL_IDENTIFIER = os.getenv('FORCE_SCHOOL_IDENTIFIER', '')
+FORCE_SCHOOL_IDENTIFIER = os.getenv('FORCE_SCHOOL_IDENTIFIER', 'Alkawthar')
 
 
 # Application definition
@@ -153,18 +153,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_TZ = True
 
 
 MEDIA_URL='/media/'

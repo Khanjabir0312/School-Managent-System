@@ -15,6 +15,12 @@ def is_superuser(user):
 
 
 @login_required
+def school_dashboard(request):
+    """Redirects to main dashboard - single-school mode"""
+    return redirect('dashboard:index')
+
+
+@login_required
 def organization_dashboard(request):
     """Dashboard for organization-level overview"""
     organizations = Organization.objects.annotate(
@@ -140,45 +146,6 @@ def organization_update(request, pk):
     
     context = {'form': form, 'organization': organization}
     return render(request, 'schools/organization_form.html', context)
-
-
-@login_required
-def school_dashboard(request):
-    """Dashboard for current school"""
-    school = request.school
-    
-    if not school:
-        messages.warning(request, 'No school context available.')
-        return redirect('schools:school_list')
-    
-    # Get statistics
-    try:
-        from students.models import Student
-        total_students = Student.objects.filter(school=school, is_active=True).count()
-    except:
-        total_students = 0
-    
-    try:
-        from teachers.models import Teacher
-        total_teachers = Teacher.objects.filter(school=school, is_active=True).count()
-    except:
-        total_teachers = 0
-    
-    # Get academic config
-    try:
-        academic_config = school.academic_config
-    except:
-        academic_config = None
-    
-    context = {
-        'school': school,
-        'total_students': total_students,
-        'total_teachers': total_teachers,
-        'academic_config': academic_config,
-        'enrollment_percentage': school.enrollment_percentage,
-        'available_capacity': school.available_capacity,
-    }
-    return render(request, 'schools/school_dashboard.html', context)
 
 
 @login_required
@@ -327,7 +294,7 @@ def school_switch(request, pk):
     request.session['current_school_id'] = school.id
     
     messages.success(request, f'Switched to {school.school_name}')
-    return redirect('schools:school_dashboard')
+    return redirect('dashboard:index')
 
 
 @login_required

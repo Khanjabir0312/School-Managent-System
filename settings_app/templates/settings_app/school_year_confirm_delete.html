@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block page_title %}Delete School Year{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto">
+    <h2 class="text-2xl font-bold mb-4">Confirm Delete</h2>
+    <p>Are you sure you want to delete school year "{{ school_year.name }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded">Delete</button>
+        <a href="{% url 'settings_app:school_year_list' %}" class="ml-4">Cancel</a>
+    </form>
+</div>
+{% endblock %}

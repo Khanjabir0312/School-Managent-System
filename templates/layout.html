@@ -20,916 +20,311 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     
-    <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
     <style>
-        * {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        :root {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --accent-primary: #6366f1;
-            --accent-secondary: #8b5cf6;
-        }
-        
-        [data-theme="light"] {
-            --bg-primary: #f8fafc;
-            --bg-secondary: #ffffff;
-        }
-        
+        * { font-family: 'Inter', sans-serif; }
+
         body {
-            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-            background-attachment: fixed;
-            transition: background 0.5s ease;
+            background: #f1f5f9;
+            min-height: 100vh;
         }
-        
-        body.light-mode {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-        }
-        
-        /* Advanced Glassmorphism */
+
+        /* Sidebar */
         .glass {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.98) 100%);
-            backdrop-filter: blur(20px) saturate(180%);
-            border-right: 1px solid rgba(99, 102, 241, 0.3);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            background: #1e293b;
+            border-right: 1px solid #334155;
         }
-        
+
         body.light-mode .glass {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 100%);
-            border-right: 1px solid rgba(226, 232, 240, 0.8);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+            background: #ffffff;
+            border-right: 1px solid #e2e8f0;
         }
-        
+
+        /* Content cards */
         .glass-white {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
         }
-        
-        body.light-mode .glass-white {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+        body.light-mode {
+            background: #f8fafc;
         }
-        
-        /* Sidebar with gradient border */
+
+        body.light-mode .glass .text-white { color: #1e293b !important; }
+        body.light-mode .glass .text-gray-300 { color: #64748b !important; }
+        body.light-mode .glass .text-gray-200 { color: #475569 !important; }
+        body.light-mode .glass h2 { color: #1e293b !important; }
+        body.light-mode .nav-item { color: #1e293b !important; }
+
+        /* Sidebar */
         .sidebar {
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: width 0.3s ease;
             position: relative;
         }
-        
-        .sidebar::before {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
-            opacity: 0.8;
-            box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
-        }
-        
+
         .sidebar-collapsed {
             width: 5rem;
         }
         
-        /* Light mode sidebar text colors */
-        body.light-mode .sidebar .text-white {
-            color: #1e293b !important;
+        /* Nav items */
+        .nav-item {
+            border-radius: 0.5rem;
+            transition: background 0.2s ease;
         }
-        
-        body.light-mode .sidebar .text-gray-300 {
-            color: #64748b !important;
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
-        
-        body.light-mode .sidebar .text-gray-200 {
-            color: #475569 !important;
-        }
-        
-        body.light-mode .sidebar h2 {
-            text-shadow: 0 2px 10px rgba(99, 102, 241, 0.3) !important;
-        }
-        
-        body.light-mode .nav-item {
-            color: #1e293b !important;
-        }
-        
+
         body.light-mode .nav-item:hover {
-            background: linear-gradient(to right, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1)) !important;
+            background: rgba(99, 102, 241, 0.08);
         }
-        
-        /* Enhanced text readability */
-        .sidebar .nav-item span {
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+
+        .nav-item.active {
+            background: rgba(99, 102, 241, 0.25);
         }
-        
-        body.light-mode .sidebar .nav-item span {
-            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5) !important;
-        }
-        
-        /* Badge improvements */
-        .badge-pulse {
-            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7),
-                        inset 0 1px 3px rgba(0, 0, 0, 0.2);
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7),
-                            inset 0 1px 3px rgba(0, 0, 0, 0.2);
-            }
-            50% {
-                box-shadow: 0 0 0 8px rgba(34, 197, 94, 0),
-                            inset 0 1px 3px rgba(0, 0, 0, 0.2);
-            }
-        }
-        
-        /* Neon glow effects */
-        .neon-glow {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .neon-glow::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent 30%,
-                rgba(99, 102, 241, 0.1) 50%,
-                transparent 70%
-            );
-            transform: rotate(45deg);
-            animation: shine 3s infinite;
-        }
-        
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-        
-        /* Morphing blob background */
-        @keyframes morph {
-            0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-            50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
-        }
-        
-        .morphing-blob {
-            animation: morph 8s ease-in-out infinite;
-            filter: blur(40px);
-            opacity: 0.3;
-        }
-        
-        /* Card hover effect */
-        .hover-card {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-        }
-        
-        .hover-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            padding: 2px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-        
-        .hover-card:hover::after {
-            opacity: 1;
-        }
-        
-        .hover-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 30px 60px rgba(99, 102, 241, 0.3);
-        }
-        
-        /* Floating animation */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            33% { transform: translateY(-20px) rotate(2deg); }
-            66% { transform: translateY(-10px) rotate(-2deg); }
-        }
-        
-        .floating {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        /* Pulse animation */
-        @keyframes pulse-ring {
-            0% { transform: scale(0.9); opacity: 1; }
-            100% { transform: scale(1.3); opacity: 0; }
-        }
-        
-        .pulse-ring {
-            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-        }
-        
+
         /* Gradient text */
         .gradient-text {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
+
+        /* Hover cards - simple lift only */
+        .hover-card {
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .hover-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
         /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, #6366f1, #8b5cf6);
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, #8b5cf6, #ec4899);
-        }
-        
-        /* Navigation item active state */
-        .nav-item {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .nav-item::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 4px;
-            height: 0;
-            background: linear-gradient(180deg, #6366f1, #8b5cf6);
-            border-radius: 0 4px 4px 0;
-            transition: height 0.3s ease;
-        }
-        
-        .nav-item:hover::before,
-        .nav-item.active::before {
-            height: 80%;
-        }
-        
-        /* Progress bar animation */
-        @keyframes progress-load {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
-        
-        .progress-animate {
-            animation: progress-load 1.5s ease-out;
-        }
-        
-        /* Skeleton loader */
-        @keyframes skeleton-loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        
-        .skeleton {
-            background: linear-gradient(
-                90deg,
-                rgba(255, 255, 255, 0.05) 25%,
-                rgba(255, 255, 255, 0.1) 50%,
-                rgba(255, 255, 255, 0.05) 75%
-            );
-            background-size: 200% 100%;
-            animation: skeleton-loading 1.5s infinite;
-        }
-        
-        /* Ripple effect */
-        .ripple {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .ripple::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.5);
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-        
-        .ripple:active::after {
-            width: 300px;
-            height: 300px;
-        }
-        
-        /* Notification badge pulse */
-        @keyframes badge-pulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-        }
-        
-        .badge-pulse {
-            animation: badge-pulse 2s infinite;
-        }
-        
-        /* Theme toggle switch */
-        .theme-switch {
-            position: relative;
-            width: 60px;
-            height: 30px;
-        }
-        
-        .theme-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            inset: 0;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            transition: 0.4s;
-            border-radius: 30px;
-        }
-        
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 22px;
-            width: 22px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: 0.4s;
-            border-radius: 50%;
-        }
-        
-        input:checked + .slider:before {
-            transform: translateX(30px);
-        }
-        
-        /* Fade in animation */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .fade-in-up {
-            animation: fadeInUp 0.6s ease-out;
-        }
-        
-        /* Particle effect */
-        @keyframes particle-float {
-            0%, 100% { 
-                transform: translate(0, 0) rotate(0deg);
-                opacity: 0;
-            }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { 
-                transform: translate(var(--tx), var(--ty)) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        
-        .particle {
-            position: fixed;
-            pointer-events: none;
-            animation: particle-float 20s infinite;
-        }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
+
+        /* Theme toggle */
+        .theme-switch { position: relative; width: 48px; height: 26px; }
+        .theme-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; inset: 0; background: #6366f1; transition: 0.3s; border-radius: 26px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background: white; transition: 0.3s; border-radius: 50%; }
+        input:checked + .slider:before { transform: translateX(22px); }
+
+        /* Neon-glow class neutralized */
+        .neon-glow { position: relative; }
+        .badge-pulse { }
+        .ripple { }
+        .floating { }
+        .pulse-ring { display: none; }
+        .progress-animate { }
+        .fade-in-up { }
     </style>
-    
+
     {% block extra_css %}{% endblock %}
 </head>
-<body class="min-h-screen relative">
-    
-    <!-- Animated background blobs -->
-    <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div class="morphing-blob absolute w-96 h-96 bg-indigo-500 rounded-full -top-48 -left-48"></div>
-        <div class="morphing-blob absolute w-96 h-96 bg-purple-500 rounded-full top-1/2 -right-48" style="animation-delay: 2s;"></div>
-        <div class="morphing-blob absolute w-96 h-96 bg-pink-500 rounded-full -bottom-48 left-1/3" style="animation-delay: 4s;"></div>
-    </div>
-    
+<body class="min-h-screen">
+
     {% if user.is_authenticated %}
-    <!-- Advanced Sidebar with gradient accents -->
-    <aside id="sidebar" class="sidebar fixed left-0 top-0 h-screen w-72 glass z-50 flex flex-col">
-        <!-- Logo Section with glow -->
-        <div class="p-6 border-b border-white border-opacity-10 relative">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar fixed left-0 top-0 h-screen w-64 glass z-50 flex flex-col">
+        <!-- Logo -->
+        <div class="p-4 border-b border-white border-opacity-10">
             <div class="flex items-center gap-3">
-                <div class="relative">
-                    <!-- Pulse rings -->
-                    <div class="absolute inset-0 w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 pulse-ring"></div>
-                    <div class="absolute inset-0 w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 pulse-ring" style="animation-delay: 1s;"></div>
-                    <!-- Main logo -->
-                    <div class="relative w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 flex items-center justify-center shadow-2xl">
-                        <i class="fas fa-graduation-cap text-white text-2xl"></i>
-                    </div>
-                </div>
+                <img src="/media/logo.png" alt="Alkawthar Logo"
+                     class="w-20 h-20 rounded-lg object-contain flex-shrink-0 bg-white p-0.5">
                 <div class="sidebar-text">
-                    <h2 class="text-white font-bold text-xl tracking-wide" style="text-shadow: 0 2px 10px rgba(99, 102, 241, 0.5);">Alkawthar</h2>
-                    <p class="text-gray-300 text-xs font-medium">School Management</p>
+                    <h2 class="text-white font-bold text-base">Alkawthar</h2>
+                    <p class="text-gray-400 text-xs">School Management</p>
                 </div>
             </div>
         </div>
-        
-        <!-- Navigation with advanced effects -->
-        <nav class="flex-1 overflow-y-auto p-4 space-y-1">
-            <a href="{% url 'dashboard:index' %}" class="nav-item flex items-center gap-3 px-4 py-3.5 text-white hover:bg-gradient-to-r hover:from-indigo-600/20 hover:to-purple-600/20 rounded-xl transition-all group neon-glow">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
-                    <i class="fas fa-home text-white drop-shadow-lg"></i>
-                </div>
-                <span class="sidebar-text font-semibold text-base">Dashboard</span>
-                <i class="fas fa-chevron-right ml-auto opacity-0 group-hover:opacity-100 transition-opacity sidebar-text"></i>
+
+        <!-- Navigation -->
+        <nav class="flex-1 overflow-y-auto p-3 space-y-0.5">
+            <a href="{% url 'dashboard:index' %}" class="nav-item flex items-center gap-3 px-3 py-2.5 text-gray-200 rounded-lg">
+                <i class="fas fa-home w-5 text-center text-indigo-400"></i>
+                <span class="sidebar-text text-sm font-medium">Dashboard</span>
             </a>
-            
-            <a href="{% url 'billing:list' %}" class="nav-item flex items-center gap-3 px-4 py-3.5 text-white hover:bg-gradient-to-r hover:from-green-600/20 hover:to-emerald-600/20 rounded-xl transition-all group neon-glow">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
-                    <i class="fas fa-file-invoice-dollar text-white drop-shadow-lg"></i>
-                </div>
-                <span class="sidebar-text font-semibold text-base">Billing</span>
-                <span class="sidebar-text ml-auto bg-green-500 text-white text-xs px-2.5 py-1 rounded-full badge-pulse font-bold shadow-lg">3</span>
+            <a href="{% url 'billing:list' %}" class="nav-item flex items-center gap-3 px-3 py-2.5 text-gray-200 rounded-lg">
+                <i class="fas fa-file-invoice-dollar w-5 text-center text-green-400"></i>
+                <span class="sidebar-text text-sm font-medium">Billing</span>
             </a>
-            
-            <a href="{% url 'accounting:dashboard' %}" class="nav-item flex items-center gap-3 px-4 py-3.5 text-white hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-pink-600/20 rounded-xl transition-all group neon-glow">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-400 to-pink-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
-                    <i class="fas fa-calculator text-white drop-shadow-lg"></i>
-                </div>
-                <span class="sidebar-text font-semibold text-base">Accounting</span>
-                <i class="fas fa-chevron-right ml-auto opacity-0 group-hover:opacity-100 transition-opacity sidebar-text"></i>
+            <a href="{% url 'accounting:dashboard' %}" class="nav-item flex items-center gap-3 px-3 py-2.5 text-gray-200 rounded-lg">
+                <i class="fas fa-calculator w-5 text-center text-purple-400"></i>
+                <span class="sidebar-text text-sm font-medium">Accounting</span>
             </a>
-            
-            <a href="{% url 'reports:dashboard' %}" class="nav-item flex items-center gap-3 px-4 py-3.5 text-white hover:bg-gradient-to-r hover:from-orange-600/20 hover:to-amber-600/20 rounded-xl transition-all group neon-glow">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-400 to-amber-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
-                    <i class="fas fa-chart-line text-white drop-shadow-lg"></i>
-                </div>
-                <span class="sidebar-text font-semibold text-base">Reports</span>
-                <i class="fas fa-chevron-right ml-auto opacity-0 group-hover:opacity-100 transition-opacity sidebar-text"></i>
+            <a href="{% url 'reports:dashboard' %}" class="nav-item flex items-center gap-3 px-3 py-2.5 text-gray-200 rounded-lg">
+                <i class="fas fa-chart-line w-5 text-center text-orange-400"></i>
+                <span class="sidebar-text text-sm font-medium">Reports</span>
             </a>
-            
-            <a href="{% url 'schools:school_dashboard' %}" class="nav-item flex items-center gap-3 px-4 py-3.5 text-white hover:bg-gradient-to-r hover:from-pink-600/20 hover:to-rose-600/20 rounded-xl transition-all group neon-glow">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-400 to-rose-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
-                    <i class="fas fa-school text-white drop-shadow-lg"></i>
-                </div>
-                <span class="sidebar-text font-semibold text-base">Schools</span>
-                <i class="fas fa-chevron-right ml-auto opacity-0 group-hover:opacity-100 transition-opacity sidebar-text"></i>
+            <a href="{% url 'students:student_list' %}" class="nav-item flex items-center gap-3 px-3 py-2.5 text-gray-200 rounded-lg">
+                <i class="fas fa-user-graduate w-5 text-center text-blue-400"></i>
+                <span class="sidebar-text text-sm font-medium">Students</span>
             </a>
-            
-            <a href="{% url 'students:student_list' %}" class="nav-item flex items-center gap-3 px-4 py-3.5 text-white hover:bg-gradient-to-r hover:from-indigo-600/20 hover:to-purple-600/20 rounded-xl transition-all group neon-glow">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-400 to-purple-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
-                    <i class="fas fa-user-graduate text-white drop-shadow-lg"></i>
-                </div>
-                <span class="sidebar-text font-semibold text-base">Students</span>
-                <i class="fas fa-chevron-right ml-auto opacity-0 group-hover:opacity-100 transition-opacity sidebar-text"></i>
-            </a>
-            
-            <a href="{% url 'settings_app:dashboard' %}" class="nav-item flex items-center gap-3 px-4 py-3.5 text-white hover:bg-gradient-to-r hover:from-slate-600/20 hover:to-gray-600/20 rounded-xl transition-all group neon-glow">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-slate-400 to-gray-600 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
-                    <i class="fas fa-cog text-white drop-shadow-lg"></i>
-                </div>
-                <span class="sidebar-text font-semibold text-base">Settings</span>
-                <i class="fas fa-chevron-right ml-auto opacity-0 group-hover:opacity-100 transition-opacity sidebar-text"></i>
+            <a href="{% url 'settings_app:dashboard' %}" class="nav-item flex items-center gap-3 px-3 py-2.5 text-gray-200 rounded-lg">
+                <i class="fas fa-cog w-5 text-center text-gray-400"></i>
+                <span class="sidebar-text text-sm font-medium">Settings</span>
             </a>
         </nav>
-        
-        <!-- User Profile Section -->
-        <div class="p-4 border-t border-white border-opacity-20">
-            <!-- Theme Toggle -->
-            <div class="mb-4 flex items-center justify-between px-3">
-                <span class="text-gray-200 text-sm font-medium sidebar-text">Theme</span>
-                <label class="theme-switch sidebar-text">
+
+        <!-- User Profile -->
+        <div class="p-3 border-t border-white border-opacity-10">
+            <div class="mb-3 flex items-center justify-between px-2 sidebar-text">
+                <span class="text-gray-400 text-xs">Theme</span>
+                <label class="theme-switch">
                     <input type="checkbox" id="theme-toggle" onclick="toggleTheme()">
                     <span class="slider"></span>
                 </label>
             </div>
-            
-            <div class="flex items-center gap-3 mb-3 p-3 rounded-xl bg-white bg-opacity-5 hover:bg-opacity-10 transition">
-                <div class="relative">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 flex items-center justify-center shadow-lg">
-                        <i class="fas fa-user text-white"></i>
-                    </div>
-                    <div class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-gray-800"></div>
+            <div class="flex items-center gap-3 mb-3 px-2 sidebar-text">
+                <div class="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center flex-shrink-0">
+                    <i class="fas fa-user text-white text-xs"></i>
                 </div>
-                <div class="sidebar-text flex-1 min-w-0">
-                    <p class="text-white font-semibold text-sm truncate">{{ user.username }}</p>
-                    <p class="text-gray-400 text-xs">Administrator</p>
+                <div class="flex-1 min-w-0">
+                    <p class="text-white text-sm font-medium truncate">{{ user.username }}</p>
+                    <p class="text-gray-400 text-xs">{{ user.is_superuser|yesno:"Admin,User" }}</p>
                 </div>
             </div>
-            
-            <div class="space-y-2">
-                <a href="{% url 'admin:password_change' %}" class="flex items-center gap-2 px-3 py-2.5 bg-gradient-to-r from-yellow-500 to-orange-500 bg-opacity-20 text-yellow-300 rounded-lg hover:bg-opacity-30 transition text-sm ripple">
-                    <i class="fas fa-key"></i>
-                    <span class="sidebar-text">Change Password</span>
+            <div class="space-y-1">
+                <a href="{% url 'admin:password_change' %}" class="flex items-center gap-2 px-3 py-2 text-yellow-300 rounded-lg hover:bg-white hover:bg-opacity-10 transition text-xs sidebar-text">
+                    <i class="fas fa-key"></i> <span>Change Password</span>
                 </a>
-                <a href="{% url 'accounts:logout' %}" class="flex items-center gap-2 px-3 py-2.5 bg-gradient-to-r from-red-500 to-rose-500 bg-opacity-20 text-red-300 rounded-lg hover:bg-opacity-30 transition text-sm ripple">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span class="sidebar-text">Logout</span>
+                <a href="{% url 'accounts:logout' %}" class="flex items-center gap-2 px-3 py-2 text-red-300 rounded-lg hover:bg-white hover:bg-opacity-10 transition text-xs sidebar-text">
+                    <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
                 </a>
             </div>
         </div>
-        
-        <!-- Collapse Button with animation -->
-        <button onclick="toggleSidebar()" class="absolute -right-4 top-6 w-8 h-8 bg-gradient-to-br from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 rounded-full text-white shadow-2xl transition-all hover:scale-110 ripple">
-            <i class="fas fa-chevron-left transition-transform duration-300" id="collapse-icon"></i>
+
+        <!-- Collapse Button -->
+        <button onclick="toggleSidebar()" class="absolute -right-3 top-5 w-6 h-6 bg-indigo-600 hover:bg-indigo-700 rounded-full text-white text-xs flex items-center justify-center">
+            <i class="fas fa-chevron-left" id="collapse-icon"></i>
         </button>
     </aside>
     {% endif %}
-    
-    <!-- Main Content Area with relative positioning -->
-    <div id="main-content" class="{% if user.is_authenticated %}ml-72{% endif %} transition-all duration-300 relative z-10">
-        
-        <!-- Enhanced Top Bar -->
-        <header class="glass-white sticky top-0 z-40 shadow-2xl backdrop-blur-xl">
-            <div class="px-8 py-4">
-                <div class="flex items-center justify-between">
-                    <!-- Breadcrumb with animation -->
-                    <div class="fade-in-up">
-                        {% block breadcrumb %}
-                        <nav class="flex items-center text-sm text-gray-600 space-x-2 mb-2">
-                            <a href="{% url 'dashboard:index' %}" class="hover:text-indigo-600 transition flex items-center gap-1 hover-card">
-                                <i class="fas fa-home"></i> <span>Dashboard</span>
-                            </a>
-                            {% block breadcrumb_items %}{% endblock %}
-                        </nav>
-                        {% endblock %}
-                        <h1 class="text-3xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                            {% block page_title %}Dashboard{% endblock %}
-                        </h1>
-                    </div>
-                    
-                    <!-- Quick Actions with notifications -->
-                    <div class="flex items-center gap-3">
-                        <!-- Search -->
-                        <button class="relative w-10 h-10 rounded-xl glass hover:bg-indigo-500 hover:text-white transition-all flex items-center justify-center group ripple hover-card">
-                            <i class="fas fa-search group-hover:scale-110 transition-transform"></i>
-                        </button>
-                        
-                        <!-- Notifications with badge  -->
-                        <button class="relative w-10 h-10 rounded-xl glass hover:bg-indigo-500 hover:text-white transition-all flex items-center justify-center group ripple hover-card">
-                            <i class="fas fa-bell group-hover:scale-110 group-hover:rotate-12 transition-all"></i>
-                            <span class="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-red-500 to-pink-500 rounded-full text-white text-xs flex items-center justify-center font-bold badge-pulse">5</span>
-                        </button>
-                        
-                        <!-- Messages -->
-                        <button class="relative w-10 h-10 rounded-xl glass hover:bg-indigo-500 hover:text-white transition-all flex items-center justify-center group ripple hover-card">
-                            <i class="fas fa-envelope group-hover:scale-110 transition-transform"></i>
-                            <span class="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full text-white text-xs flex items-center justify-center font-bold">2</span>
-                        </button>
-                        
-                        <!-- Help -->
-                        <button class="relative w-10 h-10 rounded-xl glass hover:bg-indigo-500 hover:text-white transition-all flex items-center justify-center group ripple hover-card">
-                            <i class="fas fa-question-circle group-hover:scale-110 transition-transform"></i>
-                        </button>
-                    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" class="{% if user.is_authenticated %}ml-64{% endif %} transition-all duration-300">
+
+        <!-- Top Bar -->
+        <header class="bg-white border-b border-gray-200 sticky top-0 z-40 shadow-sm">
+            <div class="px-6 py-3 flex items-center justify-between">
+                <div>
+                    {% block breadcrumb %}
+                    <nav class="flex items-center text-xs text-gray-500 gap-1 mb-1">
+                        <a href="{% url 'dashboard:index' %}" class="hover:text-indigo-600 transition">
+                            <i class="fas fa-home"></i> Dashboard
+                        </a>
+                        {% block breadcrumb_items %}{% endblock %}
+                    </nav>
+                    {% endblock %}
+                    <h1 class="text-xl font-semibold text-gray-800">{% block page_title %}Dashboard{% endblock %}</h1>
+                </div>
+                <div class="flex items-center gap-2 text-gray-500 text-sm">
+                    <span><i class="fas fa-user-circle mr-1"></i>{{ user.username }}</span>
                 </div>
             </div>
         </header>
-        
-        <!-- Enhanced Messages with animations -->
+
+        <!-- Messages -->
         {% if messages %}
-            <div class="px-8 py-4 space-y-3">
-                {% for message in messages %}
-                    <div class="{% if message.tags == 'error' %}bg-gradient-to-r from-red-500 to-rose-500{% elif message.tags == 'success' %}bg-gradient-to-r from-green-500 to-emerald-500{% elif message.tags == 'warning' %}bg-gradient-to-r from-yellow-500 to-orange-500{% else %}bg-gradient-to-r from-blue-500 to-cyan-500{% endif %} text-white p-4 rounded-2xl shadow-2xl flex items-center gap-3 fade-in-up hover-card" role="alert">
-                        <div class="w-12 h-12 rounded-xl bg-white bg-opacity-20 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
-                            {% if message.tags == 'success' %}<i class="fas fa-check-circle text-2xl"></i>{% endif %}
-                            {% if message.tags == 'error' %}<i class="fas fa-exclamation-circle text-2xl"></i>{% endif %}
-                            {% if message.tags == 'warning' %}<i class="fas fa-exclamation-triangle text-2xl"></i>{% endif %}
-                            {% if message.tags == 'info' %}<i class="fas fa-info-circle text-2xl"></i>{% endif %}
-                        </div>
-                        <p class="font-semibold flex-1">{{ message }}</p>
-                        <button onclick="this.parentElement.remove()" class="w-8 h-8 hover:bg-white hover:bg-opacity-20 rounded-lg transition flex items-center justify-center">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                {% endfor %}
+        <div class="px-6 pt-4 space-y-2">
+            {% for message in messages %}
+            <div class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium
+                {% if message.tags == 'error' %}bg-red-50 text-red-700 border border-red-200
+                {% elif message.tags == 'success' %}bg-green-50 text-green-700 border border-green-200
+                {% elif message.tags == 'warning' %}bg-yellow-50 text-yellow-700 border border-yellow-200
+                {% else %}bg-blue-50 text-blue-700 border border-blue-200{% endif %}" role="alert">
+                {% if message.tags == 'success' %}<i class="fas fa-check-circle"></i>{% endif %}
+                {% if message.tags == 'error' %}<i class="fas fa-exclamation-circle"></i>{% endif %}
+                {% if message.tags == 'warning' %}<i class="fas fa-exclamation-triangle"></i>{% endif %}
+                {% if message.tags == 'info' %}<i class="fas fa-info-circle"></i>{% endif %}
+                <span class="flex-1">{{ message }}</span>
+                <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-gray-600 ml-2">&times;</button>
             </div>
+            {% endfor %}
+        </div>
         {% endif %}
-        
-        <!-- Main Content with padding -->
-        <main class="p-8 min-h-screen">
+
+        <!-- Page Content -->
+        <main class="p-6 min-h-screen">
             {% block content %}{% endblock %}
         </main>
-        
-        <!-- Enhanced Footer -->
-        <footer class="glass-white mt-12 border-t border-gray-200 backdrop-blur-xl">
-            <div class="px-8 py-8">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-6">
-                    <!-- Brand -->
-                    <div>
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-                                <i class="fas fa-graduation-cap text-white"></i>
-                            </div>
-                            <h3 class="text-lg font-bold gradient-text">Alkawthar Schools</h3>
-                        </div>
-                        <p class="text-gray-600 text-sm">Empowering education through innovative technology solutions.</p>
-                    </div>
-                    
-                    <!-- Quick Links -->
-                    <div>
-                        <h4 class="font-bold text-gray-800 mb-4">Quick Links</h4>
-                        <div class="space-y-2">
-                            <a href="#" class="block text-gray-600 hover:text-indigo-600 transition text-sm">Documentation</a>
-                            <a href="#" class="block text-gray-600 hover:text-indigo-600 transition text-sm">Support</a>
-                            <a href="#" class="block text-gray-600 hover:text-indigo-600 transition text-sm">Privacy Policy</a>
-                        </div>
-                    </div>
-                    
-                    <!-- Contact -->
-                    <div>
-                        <h4 class="font-bold text-gray-800 mb-4">Contact</h4>
-                        <div class="space-y-2 text-sm text-gray-600">
-                            <p class="flex items-center gap-2"><i class="fas fa-envelope text-indigo-600"></i> support@alkawthar.edu</p>
-                            <p class="flex items-center gap-2"><i class="fas fa-phone text-indigo-600"></i> +966 XXX XXXX</p>
-                            <p class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-indigo-600"></i> Saudi Arabia</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="border-t border-gray-200 pt-6 flex flex-col md:flex-row items-center justify-between">
-                    <p class="text-gray-600 text-sm mb-4 md:mb-0">
-                        © 2026 Alkawthar International Schools. All Rights Reserved.
-                    </p>
-                    <div class="flex items-center gap-4">
-                        <span class="flex items-center gap-2 text-sm text-gray-500">
-                            <i class="fas fa-code text-indigo-500"></i> v2.0.0
-                        </span>
-                        <span class="flex items-center gap-2 text-sm text-gray-500">
-                            <i class="fas fa-rocket text-indigo-500"></i> Powered by Django
-                        </span>
-                    </div>
-                </div>
+
+        <!-- Footer -->
+        <footer class="bg-white border-t border-gray-200 px-6 py-4">
+            <div class="flex items-center justify-between text-xs text-gray-500">
+                <span>© 2026 Alkawthar International Schools. All Rights Reserved.</span>
+                <span>v2.0.0 &nbsp;·&nbsp; Powered by Django</span>
             </div>
         </footer>
-        
+
     </div>
-    
+
     <script>
-        // Initialize AOS animations
-        document.addEventListener('DOMContentLoaded', function() {
-            AOS.init({
-                duration: 800,
-                easing: 'ease-out-cubic',
-                once: true,
-                offset: 100
-            });
-        });
-        
         // Theme Toggle
         function toggleTheme() {
             const body = document.body;
             const isDark = !body.classList.contains('light-mode');
-            
-            if (isDark) {
-                body.classList.add('light-mode');
-                localStorage.setItem('theme', 'light');
-            } else {
-                body.classList.remove('light-mode');
-                localStorage.setItem('theme', 'dark');
-            }
-            
-            // Add transition effect
-            body.style.transition = 'background 0.5s ease';
+            body.classList.toggle('light-mode', isDark);
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
         }
-        
+
         // Load saved theme
         document.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') {
+            if (localStorage.getItem('theme') === 'light') {
                 document.body.classList.add('light-mode');
-                document.getElementById('theme-toggle').checked = true;
+                const toggle = document.getElementById('theme-toggle');
+                if (toggle) toggle.checked = true;
             }
         });
-        
-        // Enhanced Sidebar Toggle
+
+        // Sidebar Toggle
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const mainContent = document.getElementById('main-content');
             const icon = document.getElementById('collapse-icon');
             const sidebarTexts = document.querySelectorAll('.sidebar-text');
-            
+
             sidebar.classList.toggle('sidebar-collapsed');
-            
-            if (sidebar.classList.contains('sidebar-collapsed')) {
-                mainContent.classList.remove('ml-72');
-                mainContent.classList.add('ml-20');
-                icon.classList.remove('fa-chevron-left');
-                icon.classList.add('fa-chevron-right');
-                icon.style.transform = 'rotate(180deg)';
-                sidebarTexts.forEach(text => {
-                    text.style.opacity = '0';
-                    setTimeout(() => text.style.display = 'none', 200);
-                });
-            } else {
-                mainContent.classList.remove('ml-20');
-                mainContent.classList.add('ml-72');
-                icon.classList.remove('fa-chevron-right');
-                icon.classList.add('fa-chevron-left');
-                icon.style.transform = 'rotate(0deg)';
-                setTimeout(() => {
-                    sidebarTexts.forEach(text => {
-                        text.style.display = 'block';
-                        setTimeout(() => text.style.opacity = '1', 50);
-                    });
-                }, 200);
-            }
+            const collapsed = sidebar.classList.contains('sidebar-collapsed');
+
+            mainContent.classList.toggle('ml-64', !collapsed);
+            mainContent.classList.toggle('ml-20', collapsed);
+            icon.className = collapsed ? 'fas fa-chevron-right' : 'fas fa-chevron-left';
+
+            sidebarTexts.forEach(el => {
+                el.style.display = collapsed ? 'none' : '';
+            });
         }
-        
-        // Auto-dismiss messages with fade out
+
+        // Active nav highlight
+        document.addEventListener('DOMContentLoaded', function() {
+            const path = window.location.pathname;
+            document.querySelectorAll('.nav-item').forEach(item => {
+                const href = item.getAttribute('href');
+                if (href && href !== '/' && path.startsWith(href)) {
+                    item.classList.add('active');
+                    item.style.background = 'rgba(99, 102, 241, 0.25)';
+                } else if (href === '/' && path === '/') {
+                    item.classList.add('active');
+                    item.style.background = 'rgba(99, 102, 241, 0.25)';
+                }
+            });
+        });
+
+        // Auto-dismiss messages
         setTimeout(() => {
-            const messages = document.querySelectorAll('[role="alert"]');
-            messages.forEach(msg => {
-                msg.style.transition = 'all 0.5s ease';
+            document.querySelectorAll('[role="alert"]').forEach(msg => {
+                msg.style.transition = 'opacity 0.4s';
                 msg.style.opacity = '0';
-                msg.style.transform = 'translateX(100px)';
-                setTimeout(() => msg.remove(), 500);
+                setTimeout(() => msg.remove(), 400);
             });
         }, 5000);
-        
-        // Add floating particles
-        function createParticle() {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.cssText = `
-                left: ${Math.random() * 100}%;
-                bottom: -20px;
-                width: ${Math.random() * 60 + 20}px;
-                height: ${Math.random() * 60 + 20}px;
-                --tx: ${(Math.random() - 0.5) * 200}px;
-                --ty: ${-Math.random() * window.innerHeight - 100}px;
-                animation-delay: ${Math.random() * 5}s;
-                animation-duration: ${Math.random() * 10 + 15}s;
-            `;
-            document.body.appendChild(particle);
-            
-            setTimeout(() => particle.remove(), 25000);
-        }
-        
-        // Create particles periodically
-        setInterval(createParticle, 3000);
-        
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-        
-        // Add ripple effect to buttons
-        document.querySelectorAll('.ripple').forEach(button => {
-            button.addEventListener('click', function(e) {
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-                
-                ripple.style.cssText = `
-                    position: absolute;
-                    width: ${size}px;
-                    height: ${size}px;
-                    top: ${y}px;
-                    left: ${x}px;
-                    background: rgba(255, 255, 255, 0.5);
-                    border-radius: 50%;
-                    transform: scale(0);
-                    animation: ripple-animation 0.6s ease-out;
-                    pointer-events: none;
-                `;
-                
-                this.appendChild(ripple);
-                setTimeout(() => ripple.remove(), 600);
-            });
-        });
-        
-        // Add ripple animation CSS
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple-animation {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-        
-        // Highlight active navigation item
-        document.addEventListener('DOMContentLoaded', function() {
-            const currentPath = window.location.pathname;
-            const navItems = document.querySelectorAll('.nav-item');
-            
-            navItems.forEach(item => {
-                if (item.getAttribute('href') === currentPath || 
-                    (currentPath.includes(item.getAttribute('href')) && item.getAttribute('href') !== '/')) {
-                    item.classList.add('active');
-                    item.style.background = 'rgba(255, 255, 255, 0.15)';
-                }
-            });
-        });
-        
-        // Add hover effect for cards
-        document.querySelectorAll('.hover-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-8px) scale(1.02)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-        });
-        
-        // Performance monitoring
-        window.addEventListener('load', function() {
-            const perfData = window.performance.timing;
-            const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
-            console.log(`⚡ Page loaded in ${pageLoadTime}ms`);
-        });
-        
-        // Add loading animation for async content
-        function showLoader(element) {
-            element.classList.add('skeleton');
-        }
-        
-        function hideLoader(element) {
-            element.classList.remove('skeleton');
-        }
-        
-        // Keyboard shortcuts
-        document.addEventListener('keydown', function(e) {
-            // Ctrl/Cmd + K for search
-            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                e.preventDefault();
-                document.querySelector('.fa-search').closest('button').click();
-            }
-            
-            // Ctrl/Cmd + B for sidebar toggle
-            if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
-                e.preventDefault();
-                toggleSidebar();
-            }
-        });
-        
-        // Add tooltip functionality
-        document.querySelectorAll('[data-tooltip]').forEach(element => {
-            element.addEventListener('mouseenter', function() {
-                const tooltip = document.createElement('div');
-                tooltip.className = 'fixed bg-gray-900 text-white px-3 py-2 rounded-lg text-sm z-50';
-                tooltip.textContent = this.getAttribute('data-tooltip');
-                document.body.appendChild(tooltip);
-                
-                const rect = this.getBoundingClientRect();
-                tooltip.style.top = rect.top - tooltip.offsetHeight - 10 + 'px';
-                tooltip.style.left = rect.left + (rect.width - tooltip.offsetWidth) / 2 + 'px';
-                
-                this.tooltipElement = tooltip;
-            });
-            
-            element.addEventListener('mouseleave', function() {
-                if (this.tooltipElement) {
-                    this.tooltipElement.remove();
-                    this.tooltipElement = null;
-                }
-            });
-        });
     </script>
-    
     {% block extra_js %}{% endblock %}
 </body>
 </html>
