@@ -49,15 +49,15 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
         <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
             <p class="text-blue-100 text-sm">Expected</p>
-            <h3 class="text-3xl font-bold mt-1">₹{{ total_expected|floatformat:2 }}</h3>
+            <h3 class="text-3xl font-bold mt-1">SAR {{ total_expected|floatformat:2 }}</h3>
         </div>
         <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white">
             <p class="text-green-100 text-sm">Collected</p>
-            <h3 class="text-3xl font-bold mt-1">₹{{ total_collected|floatformat:2 }}</h3>
+            <h3 class="text-3xl font-bold mt-1">SAR {{ total_collected|floatformat:2 }}</h3>
         </div>
         <div class="bg-gradient-to-br from-red-500 to-red-600 rounded-xl shadow-lg p-6 text-white">
             <p class="text-red-100 text-sm">Outstanding</p>
-            <h3 class="text-3xl font-bold mt-1">₹{{ total_outstanding|floatformat:2 }}</h3>
+            <h3 class="text-3xl font-bold mt-1">SAR {{ total_outstanding|floatformat:2 }}</h3>
         </div>
         <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-6 text-white">
             <p class="text-purple-100 text-sm">Collection Rate</p>
@@ -88,9 +88,9 @@
                             <div class="text-sm text-gray-500">{{ data.student.admission_number }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ data.student.current_class.name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">₹{{ data.expected|floatformat:2 }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">₹{{ data.collected|floatformat:2 }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600">₹{{ data.outstanding|floatformat:2 }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">SAR {{ data.expected|floatformat:2 }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">SAR {{ data.collected|floatformat:2 }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600">SAR {{ data.outstanding|floatformat:2 }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
                                 <span class="text-sm font-medium mr-2">{{ data.collection_rate|floatformat:1 }}%</span>

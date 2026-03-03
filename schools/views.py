@@ -15,6 +15,12 @@ def is_superuser(user):
 
 
 @login_required
+def school_dashboard(request):
+    """Redirects to main dashboard - single-school mode"""
+    return redirect('dashboard:index')
+
+
+@login_required
 def organization_dashboard(request):
     """Dashboard for organization-level overview"""
     organizations = Organization.objects.annotate(
@@ -143,53 +149,27 @@ def organization_update(request, pk):
 
 
 @login_required
-def school_dashboard(request):
-    """Dashboard for current school"""
-    school = request.school
-    
-    if not school:
-        messages.warning(request, 'No school context available.')
-        return redirect('schools:school_list')
-    
-    # Get statistics
-    try:
-        from students.models import Student
-        total_students = Student.objects.filter(school=school, is_active=True).count()
-    except:
-        total_students = 0
-    
-    try:
-        from teachers.models import Teacher
-        total_teachers = Teacher.objects.filter(school=school, is_active=True).count()
-    except:
-        total_teachers = 0
-    
-    # Get academic config
-    try:
-        academic_config = school.academic_config
-    except:
-        academic_config = None
-    
-    context = {
-        'school': school,
-        'total_students': total_students,
-        'total_teachers': total_teachers,
-        'academic_config': academic_config,
-        'enrollment_percentage': school.enrollment_percentage,
-        'available_capacity': school.available_capacity,
-    }
-    return render(request, 'schools/school_dashboard.html', context)
-
-
-@login_required
 def school_list(request):
     """List all schools"""
+    from django.conf import settings
+
     schools = School.objects.select_related('organization').filter(is_active=True)
     
-    # Filters
-    organization_id = request.GET.get('organization')
-    school_type = request.GET.get('school_type')
-    search_query = request.GET.get('search', '')
+    # enforce single-school mode if configured
+    if settings.FORCE_SCHOOL_IDENTIFIER:
+        schools = schools.filter(
+            Q(school_name__icontains=settings.FORCE_SCHOOL_IDENTIFIER) |
+            Q(school_code__icontains=settings.FORCE_SCHOOL_IDENTIFIER)
+        )
+        # skip other filters since there is only one school to show
+        organization_id = None
+        school_type = None
+        search_query = ''
+    else:
+        # Filters
+        organization_id = request.GET.get('organization')
+        school_type = request.GET.get('school_type')
+        search_query = request.GET.get('search', '')
     
     if organization_id:
         schools = schools.filter(organization_id=organization_id)
@@ -314,7 +294,7 @@ def school_switch(request, pk):
     request.session['current_school_id'] = school.id
     
     messages.success(request, f'Switched to {school.school_name}')
-    return redirect('schools:school_dashboard')
+    return redirect('dashboard:index')
 
 
 @login_required

@@ -3,231 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Alkawthar International Schools</title>
+    <title>Login — Alkawthar Schools</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        * {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #312e81 100%);
-            background-attachment: fixed;
-        }
-        
-        .glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-        
-        .glass-strong {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        /* Floating animation */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        .floating {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        /* Gradient animation */
-        @keyframes gradient-shift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        .animated-gradient {
-            background-size: 200% 200%;
-            animation: gradient-shift 15s ease infinite;
-        }
-        
-        /* Particle effect */
-        .particle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(99, 102, 241, 0.3);
-            animation: float-particle 20s infinite;
-        }
-        
-        @keyframes float-particle {
-            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translate(100px, -100vh) scale(0.5); opacity: 0; }
-        }
+        * { font-family: 'Inter', sans-serif; }
+        body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #312e81 100%); }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-    
-    <!-- Animated Background Particles -->
-    <div class="particle" style="width: 60px; height: 60px; left: 10%; bottom: -60px; animation-delay: 0s;"></div>
-    <div class="particle" style="width: 40px; height: 40px; left: 30%; bottom: -40px; animation-delay: 4s;"></div>
-    <div class="particle" style="width: 80px; height: 80px; left: 50%; bottom: -80px; animation-delay: 8s;"></div>
-    <div class="particle" style="width: 50px; height: 50px; left: 70%; bottom: -50px; animation-delay: 12s;"></div>
-    <div class="particle" style="width: 70px; height: 70px; left: 90%; bottom: -70px; animation-delay: 16s;"></div>
-    
-    <div class="max-w-md w-full relative z-10">
-        <!-- Logo Section - Floating -->
-        <div class="text-center mb-8 floating">
-            <div class="w-24 h-24 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-2xl">
-                <i class="fas fa-graduation-cap text-white text-5xl"></i>
-            </div>
-            <h1 class="text-4xl font-bold text-white mb-2">Alkawthar Schools</h1>
-            <p class="text-gray-300">Financial Management System</p>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-md">
+
+        <!-- Logo + School Name -->
+        <div class="text-center mb-6">
+            <img src="/media/logo.png" alt="Alkawthar Logo"
+                 class="w-24 h-24 mx-auto mb-4 rounded-2xl object-contain bg-white p-1 shadow-lg">
+            <h1 class="text-2xl font-bold text-white">Alkawthar International Schools</h1>
+            <p class="text-gray-400 text-sm mt-1">Financial Management System</p>
         </div>
-        
-        <!-- Login Card -->
-        <div class="glass-strong rounded-3xl shadow-2xl overflow-hidden">
-            <div class="p-8">
-                <div class="text-center mb-8">
-                    <h2 class="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
-                        Welcome Back
-                    </h2>
-                    <p class="text-gray-600">Sign in to access your dashboard</p>
-                </div>
+
+        <!-- Card -->
+        <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+
+            <!-- Card Header -->
+            <div class="bg-indigo-600 px-8 py-5 text-center">
+                <h2 class="text-xl font-bold text-white">Welcome Back</h2>
+                <p class="text-indigo-200 text-sm mt-0.5">Sign in to access your dashboard</p>
+            </div>
+
+            <!-- Card Body -->
+            <div class="px-8 py-7">
 
                 {% if messages %}
-                    <div class="mb-6 space-y-2">
-                        {% for message in messages %}
-                            <div class="{% if message.tags == 'error' %}bg-gradient-to-r from-red-500 to-rose-500{% else %}bg-gradient-to-r from-green-500 to-emerald-500{% endif %} text-white p-4 rounded-xl shadow-lg flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-white bg-opacity-20 flex items-center justify-center flex-shrink-0">
-                                    {% if message.tags == 'error' %}
-                                        <i class="fas fa-exclamation-circle"></i>
-                                    {% else %}
-                                        <i class="fas fa-check-circle"></i>
-                                    {% endif %}
-                                </div>
-                                <span class="text-sm font-medium">{{ message }}</span>
-                            </div>
-                        {% endfor %}
+                <div class="mb-5 space-y-2">
+                    {% for message in messages %}
+                    <div class="flex items-start gap-3 px-4 py-3 rounded-lg text-sm font-medium
+                        {% if message.tags == 'error' %}bg-red-50 text-red-700 border border-red-200
+                        {% else %}bg-green-50 text-green-700 border border-green-200{% endif %}">
+                        <i class="{% if message.tags == 'error' %}fas fa-exclamation-circle text-red-500{% else %}fas fa-check-circle text-green-500{% endif %} mt-0.5 flex-shrink-0"></i>
+                        <span>{{ message }}</span>
                     </div>
+                    {% endfor %}
+                </div>
                 {% endif %}
 
-                <form method="POST" action="{% url 'accounts:login' %}" class="space-y-6">
+                <form method="POST" action="{% url 'accounts:login' %}" class="space-y-5">
                     {% csrf_token %}
                     <input type="hidden" name="next" value="{{ next }}">
 
-                    <!-- Username/Email Field -->
+                    <!-- Username -->
                     <div>
-                        <label for="username" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <label for="username" class="block text-sm font-semibold text-gray-700 mb-1.5">
                             Username or Email
                         </label>
                         <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center">
-                                    <i class="fas fa-user text-indigo-600"></i>
-                                </div>
-                            </div>
-                            <input 
-                                type="text" 
-                                id="username" 
-                                name="username" 
-                                required 
-                                autofocus
-                                class="block w-full pl-16 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 bg-gray-50 hover:bg-white font-medium"
-                                placeholder="Enter your username or email"
-                            >
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-indigo-400">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            <input type="text" id="username" name="username" required autofocus
+                                   placeholder="Enter your username or email"
+                                   class="w-full pl-9 pr-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-gray-50 focus:bg-white transition">
                         </div>
                     </div>
 
-                    <!-- Password Field -->
+                    <!-- Password -->
                     <div>
-                        <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <label for="password" class="block text-sm font-semibold text-gray-700 mb-1.5">
                             Password
                         </label>
                         <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center">
-                                    <i class="fas fa-lock text-purple-600"></i>
-                                </div>
-                            </div>
-                            <input 
-                                type="password" 
-                                id="password" 
-                                name="password" 
-                                required
-                                class="block w-full pl-16 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition duration-200 bg-gray-50 hover:bg-white font-medium"
-                                placeholder="Enter your password"
-                            >
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-indigo-400">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                            <input type="password" id="password" name="password" required
+                                   placeholder="Enter your password"
+                                   class="w-full pl-9 pr-10 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-gray-50 focus:bg-white transition">
+                            <button type="button" onclick="togglePassword()"
+                                    class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                <i class="fas fa-eye" id="eye-icon"></i>
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Submit Button -->
-                    <button 
-                        type="submit"
-                        class="w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 animated-gradient text-white font-bold py-4 px-6 rounded-xl hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-indigo-300 transform transition hover:scale-[1.02] duration-200 shadow-lg flex items-center justify-center gap-2"
-                    >
+                    <!-- Submit -->
+                    <button type="submit"
+                            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition flex items-center justify-center gap-2 shadow-sm">
                         <i class="fas fa-sign-in-alt"></i>
-                        <span>Sign In to Dashboard</span>
+                        Sign In
                     </button>
                 </form>
+            </div>
 
-                <!-- Role Information -->
-                <div class="mt-8 p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl border-2 border-gray-200">
-                    <p class="text-sm text-gray-700 font-semibold mb-4 flex items-center gap-2">
-                        <i class="fas fa-users-cog text-indigo-600"></i>
-                        Available System Roles
-                    </p>
-                    <div class="grid grid-cols-2 gap-3">
-                        <div class="flex items-center gap-2 text-sm">
-                            <div class="w-2 h-2 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full"></div>
-                            <span class="text-gray-700 font-medium">Administrator</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-sm">
-                            <div class="w-2 h-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
-                            <span class="text-gray-700 font-medium">Teacher</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-sm">
-                            <div class="w-2 h-2 bg-gradient-to-r from-green-500 to-green-600 rounded-full"></div>
-                            <span class="text-gray-700 font-medium">Staff</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-sm">
-                            <div class="w-2 h-2 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full"></div>
-                            <span class="text-gray-700 font-medium">Accountant</span>
-                        </div>
-                        <div class="flex items-center gap-2 text-sm col-span-2 justify-center">
-                            <div class="w-2 h-2 bg-gradient-to-r from-pink-500 to-pink-600 rounded-full"></div>
-                            <span class="text-gray-700 font-medium">Human Resources</span>
-                        </div>
+            <!-- Roles info -->
+            <div class="px-8 py-5 bg-gray-50 border-t border-gray-100">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">System Roles</p>
+                <div class="grid grid-cols-2 gap-y-2 gap-x-4">
+                    <div class="flex items-center gap-2 text-sm text-gray-600">
+                        <span class="w-2 h-2 rounded-full bg-purple-500 flex-shrink-0"></span>Administrator
                     </div>
-                    <div class="mt-4 pt-4 border-t border-gray-300">
-                        <p class="text-xs text-gray-500 text-center italic flex items-center justify-center gap-2">
-                            <i class="fas fa-info-circle"></i>
-                            Your role is automatically detected after login
-                        </p>
+                    <div class="flex items-center gap-2 text-sm text-gray-600">
+                        <span class="w-2 h-2 rounded-full bg-green-500 flex-shrink-0"></span>Accountant
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-gray-600">
+                        <span class="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0"></span>Teacher
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-gray-600">
+                        <span class="w-2 h-2 rounded-full bg-orange-500 flex-shrink-0"></span>Staff
                     </div>
                 </div>
+                <p class="text-xs text-gray-400 mt-3 flex items-center gap-1.5">
+                    <i class="fas fa-info-circle"></i>
+                    Your role is automatically detected after login
+                </p>
             </div>
 
             <!-- Footer -->
-            <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-8 py-4 border-t-2 border-gray-200">
-                <p class="text-xs text-gray-600 text-center font-medium">
-                    © 2026 Alkawthar International Schools. All rights reserved.
-                </p>
+            <div class="px-8 py-3 bg-gray-100 border-t border-gray-200 text-center">
+                <p class="text-xs text-gray-500">© 2026 Alkawthar International Schools. All rights reserved.</p>
             </div>
         </div>
 
-        <!-- Security Notice -->
-        <div class="mt-6 text-center">
-            <p class="text-sm text-gray-300 flex items-center justify-center gap-2">
-                <i class="fas fa-shield-alt text-green-400"></i>
-                Your credentials are encrypted and secure
-            </p>
-        </div>
+        <!-- Security note -->
+        <p class="text-center text-xs text-gray-400 mt-4 flex items-center justify-center gap-1.5">
+            <i class="fas fa-shield-alt text-green-400"></i>
+            Your credentials are encrypted and secure
+        </p>
     </div>
+
+    <script>
+        function togglePassword() {
+            const input = document.getElementById('password');
+            const icon  = document.getElementById('eye-icon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+    </script>
 </body>
 </html>

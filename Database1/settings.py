@@ -21,12 +21,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-&0fb*y7-*vj22&gm__)cu(^4u*vs7f3g+06ryhk%*+@6+5sp=-'
+# Load from environment, fall back to hardcoded value for local development
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-&0fb*y7-*vj22&gm__)cu(^4u*vs7f3g+06ryhk%*+@6+5sp=-')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# Use environment variable so production can disable debug easily.
+DEBUG = os.getenv('DEBUG', 'True').lower() in ('1', 'true', 'yes')
 
-ALLOWED_HOSTS = ['*']
+# Allow hosts configuration via environment, default to wildcard for dev
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
+
+# Optional: force the application to only operate for a single school.
+# Provide either the school name or code; matching is case-insensitive and
+# partial. Useful when deploying for one institution such as "Alkawthar".
+# If empty or not set, normal multi-school behavior applies.
+FORCE_SCHOOL_IDENTIFIER = os.getenv('FORCE_SCHOOL_IDENTIFIER', 'Alkawthar')
 
 
 # Application definition
@@ -102,6 +111,7 @@ WSGI_APPLICATION = 'Database1.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+<<<<<<< HEAD
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -110,8 +120,29 @@ DATABASES = {
         'PASSWORD': 'admin123',
         'HOST': 'localhost',
         'PORT': '5432',
+=======
+import sys
+
+# Use sqlite in-memory database when running tests to avoid needing PostgreSQL permissions
+if 'test' in sys.argv or 'pytest' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'mydb2',
+            'USER': 'myuser',
+            'PASSWORD': 'mypassword',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+>>>>>>> c0c2fb3f3430aff6f959ca246198cb243138710c
+    }
 
 
 # Password validation
@@ -131,18 +162,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'UTC'
-
-USE_I18N = True
-
-USE_TZ = True
 
 
 MEDIA_URL='/media/'

@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+
+{% block page_title %}School Years - Settings{% endblock %}
+
+{% block breadcrumb_items %}
+    <span class="mx-2 text-gray-400">/</span>
+    <span class="text-gray-800 font-medium">School Years</span>
+{% endblock %}
+
+{% block content %}
+<div class="mb-6">
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">
+                <i class="fas fa-calendar-alt text-green-600 mr-2"></i> School Years
+            </h1>
+            <p class="text-gray-600">Manage academic year configurations.</p>
+        </div>
+        <a href="{% url 'settings_app:school_year_create' %}" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg transition flex items-center gap-2">
+            <i class="fas fa-plus-circle"></i> Add Year
+        </a>
+    </div>
+</div>
+
+<div class="bg-white rounded-lg shadow-md p-6">
+    {% if school_years.exists %}
+    <table class="w-full table-auto">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="px-4 py-2 text-left">Name</th>
+                <th class="px-4 py-2 text-left">Start</th>
+                <th class="px-4 py-2 text-left">End</th>
+                <th class="px-4 py-2 text-left">Active</th>
+                <th class="px-4 py-2"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for year in school_years %}
+            <tr class="border-t">
+                <td class="px-4 py-2">{{ year.name }}</td>
+                <td class="px-4 py-2">{{ year.start_date }}</td>
+                <td class="px-4 py-2">{{ year.end_date }}</td>
+                <td class="px-4 py-2">{% if year.is_active %}Yes{% else %}No{% endif %}</td>
+                <td class="px-4 py-2 text-right">
+                    <a href="{% url 'settings_app:school_year_edit' year.pk %}"
+                       class="text-green-600 hover:text-green-800">Edit</a>
+                    <a href="{% url 'settings_app:school_year_delete' year.pk %}"
+                       class="text-red-600 hover:text-red-800 ml-4">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="text-gray-600">No school years configured.</p>
+    {% endif %}
+</div>
+{% endblock %}

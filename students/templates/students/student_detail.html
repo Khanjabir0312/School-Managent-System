@@ -255,6 +255,97 @@
         </div>
     </div>
 
+    <!-- Saudi Arabia Documents -->
+    {% if student.photo or student.iqama_expiry_date or student.passport_number or student.birth_certificate_number or student.transfer_certificate_number or student.vaccination_card_number or student.medical_insurance_number %}
+    <div class="bg-white rounded-xl shadow-lg border border-gray-200 mb-6 overflow-hidden">
+        <div class="bg-gradient-to-r from-teal-600 to-cyan-600 px-6 py-4">
+            <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                <i class="fas fa-folder-open"></i>
+                Saudi Arabia Documents
+            </h2>
+        </div>
+        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            {% if student.photo %}
+            <div class="md:col-span-2 flex items-center gap-4">
+                <img src="{{ student.photo.url }}" alt="Student Photo" class="w-24 h-24 rounded-xl object-cover border border-gray-200 shadow-sm">
+                <div>
+                    <label class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Student Photo</label>
+                    <p class="text-sm text-gray-600 mt-1">Photo on file</p>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if student.iqama_expiry_date %}
+            <div>
+                <label class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Iqama / National ID Expiry</label>
+                <p class="text-gray-900 mt-1">{{ student.iqama_expiry_date|date:"d M Y" }}</p>
+            </div>
+            {% endif %}
+
+            {% if student.passport_number %}
+            <div>
+                <label class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Passport Number</label>
+                <p class="text-gray-900 mt-1">{{ student.passport_number }}</p>
+            </div>
+            {% endif %}
+
+            {% if student.passport_expiry_date %}
+            <div>
+                <label class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Passport Expiry</label>
+                <p class="text-gray-900 mt-1">{{ student.passport_expiry_date|date:"d M Y" }}</p>
+            </div>
+            {% endif %}
+
+            {% if student.birth_certificate_number %}
+            <div>
+                <label class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Birth Certificate No.</label>
+                <p class="text-gray-900 mt-1">{{ student.birth_certificate_number }}</p>
+            </div>
+            {% endif %}
+
+            {% if student.transfer_certificate_number %}
+            <div>
+                <label class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Transfer Certificate No.</label>
+                <p class="text-gray-900 mt-1">{{ student.transfer_certificate_number }}</p>
+            </div>
+            {% endif %}
+
+            {% if student.previous_school_name %}
+            <div>
+                <label class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Previous School</label>
+                <p class="text-gray-900 mt-1">{{ student.previous_school_name }}</p>
+            </div>
+            {% endif %}
+
+            {% if student.vaccination_card_number or student.is_vaccinated %}
+            <div>
+                <label class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Vaccination</label>
+                <p class="text-gray-900 mt-1">
+                    {% if student.vaccination_card_number %}{{ student.vaccination_card_number }}{% endif %}
+                    {% if student.is_vaccinated %}<span class="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800"><i class="fas fa-check mr-1"></i>Record Provided</span>{% endif %}
+                </p>
+            </div>
+            {% endif %}
+
+            {% if student.medical_insurance_number %}
+            <div>
+                <label class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Medical Insurance No.</label>
+                <p class="text-gray-900 mt-1">{{ student.medical_insurance_number }}</p>
+            </div>
+            {% endif %}
+
+            {% if student.medical_insurance_expiry %}
+            <div>
+                <label class="text-sm font-semibold text-gray-500 uppercase tracking-wide">Insurance Expiry</label>
+                <p class="text-gray-900 mt-1">{{ student.medical_insurance_expiry|date:"d M Y" }}</p>
+            </div>
+            {% endif %}
+
+        </div>
+    </div>
+    {% endif %}
+
     <!-- Additional Information -->
     {% if student.notes %}
     <div class="bg-white rounded-xl shadow-lg border border-gray-200 mb-6 overflow-hidden">

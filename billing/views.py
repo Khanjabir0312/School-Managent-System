@@ -214,6 +214,7 @@ def vat_invoice_create(request):
 
 
 @login_required
+@login_required
 def payment_create(request, invoice_number):
     """Record payment for an invoice"""
     invoice = get_object_or_404(Invoice, invoice_number=invoice_number)

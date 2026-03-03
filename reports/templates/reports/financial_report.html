@@ -50,7 +50,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-green-100 text-sm">Total Invoiced</p>
-                    <h3 class="text-3xl font-bold mt-1">₹{{ total_invoiced|floatformat:2 }}</h3>
+                    <h3 class="text-3xl font-bold mt-1">SAR {{ total_invoiced|floatformat:2 }}</h3>
                 </div>
                 <svg class="w-12 h-12 opacity-30" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"/>
@@ -63,7 +63,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-blue-100 text-sm">Total Collected</p>
-                    <h3 class="text-3xl font-bold mt-1">₹{{ total_paid|floatformat:2 }}</h3>
+                    <h3 class="text-3xl font-bold mt-1">SAR {{ total_paid|floatformat:2 }}</h3>
                 </div>
                 <svg class="w-12 h-12 opacity-30" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
@@ -75,7 +75,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-purple-100 text-sm">Total VAT</p>
-                    <h3 class="text-3xl font-bold mt-1">₹{{ total_vat|floatformat:2 }}</h3>
+                    <h3 class="text-3xl font-bold mt-1">SAR {{ total_vat|floatformat:2 }}</h3>
                 </div>
                 <svg class="w-12 h-12 opacity-30" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
@@ -87,7 +87,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-red-100 text-sm">Outstanding ({{ outstanding_count }})</p>
-                    <h3 class="text-3xl font-bold mt-1">₹{{ total_outstanding|floatformat:2 }}</h3>
+                    <h3 class="text-3xl font-bold mt-1">SAR {{ total_outstanding|floatformat:2 }}</h3>
                 </div>
                 <svg class="w-12 h-12 opacity-30" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
@@ -118,7 +118,7 @@
                                 </span>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">{{ method.count }}</td>
-                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">₹{{ method.total|floatformat:2 }}</td>
+                            <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">SAR {{ method.total|floatformat:2 }}</td>
                         </tr>
                         {% empty %}
                         <tr>
@@ -177,7 +177,7 @@
                             {{ invoice.invoice_date|date:"M d, Y" }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">₹{{ invoice.total_amount|floatformat:2 }}</div>
+                            <div class="text-sm font-medium text-gray-900">SAR {{ invoice.total_amount|floatformat:2 }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
@@ -212,7 +212,7 @@ new Chart(document.getElementById('monthlyRevenueChart'), {
     data: {
         labels: monthlyLabels,
         datasets: [{
-            label: 'Revenue (₹)',
+            label: 'Revenue (SAR )',
             data: monthlyAmounts,
             borderColor: 'rgb(147, 51, 234)',
             backgroundColor: 'rgba(147, 51, 234, 0.1)',
